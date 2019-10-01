@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_30_132400) do
+ActiveRecord::Schema.define(version: 2019_10_01_090843) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,13 @@ ActiveRecord::Schema.define(version: 2019_09_30_132400) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "categories", force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "image"
+  end
+
   create_table "jwt_blacklists", force: :cascade do |t|
     t.string "jti"
     t.integer "exp"
@@ -29,4 +36,16 @@ ActiveRecord::Schema.define(version: 2019_09_30_132400) do
     t.index ["jti"], name: "index_jwt_blacklists_on_jti"
   end
 
+  create_table "users", force: :cascade do |t|
+    t.string "username"
+    t.string "password_digest"
+    t.integer "discount"
+    t.integer "country"
+    t.bigint "address_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["address_id"], name: "index_users_on_address_id"
+  end
+
+  add_foreign_key "users", "addresses"
 end

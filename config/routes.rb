@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :categories
+  resources :users
   resources :addresses
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+  post '/login', to: 'authentication#login'
+  post '/logout', to: 'authentication#logout'
 end
