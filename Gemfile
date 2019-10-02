@@ -25,6 +25,8 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'jwt'
 gem 'sidekiq'
+gem 'rails-i18n', '~> 5.1'
+gem 'globalize', git: 'https://github.com/globalize/globalize'
 gem 'carrierwave', '~> 2.0'
 
 # Reduces boot times through caching; required in config/boot.rb

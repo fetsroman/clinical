@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::API
+  before_action :set_locale
+
   def not_found
     render json: { error: 'not_found' }
   end
@@ -20,14 +22,24 @@ class ApplicationController < ActionController::API
     end
   end
 
-  def jwt_validate(header)
-    raise SessionExpiredError if JwtBlacklist.where(jti: header).present?
-  end
-
   def user_validate(object)
     unless @current_user.id == object.user_id
       render json: "Not success user"
     end
+  end
+
+  def set_locale
+    I18n.locale = params[:locale] || I18n.default_locale
+  end
+
+  def default_url_options
+    { locale: I18n.locale }
+  end
+
+  private
+
+  def jwt_validate(header)
+    raise SessionExpiredError if JwtBlacklist.where(jti: header).present?
   end
 
   class SessionExpiredError < Exception

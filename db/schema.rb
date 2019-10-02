@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_01_090843) do
+ActiveRecord::Schema.define(version: 2019_10_01_110133) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,7 +22,37 @@ ActiveRecord::Schema.define(version: 2019_10_01_090843) do
   end
 
   create_table "categories", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "image"
+  end
+
+  create_table "category_translations", force: :cascade do |t|
+    t.bigint "category_id", null: false
+    t.string "locale", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "title"
+    t.index ["category_id"], name: "index_category_translations_on_category_id"
+    t.index ["locale"], name: "index_category_translations_on_locale"
+  end
+
+  create_table "item_translations", force: :cascade do |t|
+    t.bigint "item_id", null: false
+    t.string "locale", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "title"
+    t.string "article"
+    t.text "description"
+    t.json "optionsList", default: "{}", null: false
+    t.index ["item_id"], name: "index_item_translations_on_item_id"
+    t.index ["locale"], name: "index_item_translations_on_locale"
+  end
+
+  create_table "items", force: :cascade do |t|
+    t.string "measure"
+    t.integer "category_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "image"
