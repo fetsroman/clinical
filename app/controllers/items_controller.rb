@@ -3,7 +3,11 @@ class ItemsController < ApplicationController
 
   # GET /items
   def index
-    @items = Item.all
+    if params[:query].present?
+      @items = Item.search(params[:query])
+    else
+      @items = Item.all
+    end
 
     render json: @items
   end
