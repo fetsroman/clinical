@@ -19,6 +19,8 @@ class UsersController < ApplicationController
     @user.password = (('0'..'9').to_a + ('a'..'z').to_a + ('A'..'Z').to_a).shuffle.first(8).join
 
     if @user.save
+      CreateCartWorker.perform_async(@user.id)
+
       render json: @user, status: :created, location: @user
     else
       render json: @user.errors, status: :unprocessable_entity
@@ -47,6 +49,6 @@ class UsersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def user_params
-      params.permit(:username, :discount, :country, :address_id)
+      params.permit(:username, :name, :discount, :country, :address_id)
     end
 end

@@ -2,8 +2,9 @@ class User < ApplicationRecord
   has_secure_password
 
   belongs_to :address
-  enum country: [:russia, :ukraine]
+  has_one :cart, dependent: :destroy
 
+  enum country: [:russia, :ukraine]
 
   def address
     Address.find_by_id(self.address_id).address
