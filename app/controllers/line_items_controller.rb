@@ -1,4 +1,5 @@
 class LineItemsController < ApplicationController
+  before_action :authorize_request
   before_action :set_line_item, only: [:show, :update, :destroy]
 
   # GET /line_items
@@ -15,7 +16,7 @@ class LineItemsController < ApplicationController
 
   # POST /line_items
   def create
-    @line_item = @cart.add_item(LineItem.new(line_item_params))
+    @line_item = @current_user.cart.add_item(LineItem.new(line_item_params))
 
     if @line_item.save
       render json: @line_item, status: :created, location: @line_item
