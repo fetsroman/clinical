@@ -10,13 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_02_132406) do
+ActiveRecord::Schema.define(version: 2019_10_07_113515) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "addresses", force: :cascade do |t|
-    t.string "address"
+    t.bigint "user_id"
+    t.string "title"
+    t.index ["user_id"], name: "index_addresses_on_user_id"
+  end
+
+  create_table "admins", force: :cascade do |t|
+    t.string "username"
+    t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -30,36 +37,17 @@ ActiveRecord::Schema.define(version: 2019_10_02_132406) do
   end
 
   create_table "categories", force: :cascade do |t|
+    t.string "title_uk"
+    t.string "title_ru"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "image"
   end
 
-  create_table "category_translations", force: :cascade do |t|
-    t.bigint "category_id", null: false
-    t.string "locale", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "title"
-    t.index ["category_id"], name: "index_category_translations_on_category_id"
-    t.index ["locale"], name: "index_category_translations_on_locale"
-  end
-
-  create_table "item_translations", force: :cascade do |t|
-    t.bigint "item_id", null: false
-    t.string "locale", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "title"
-    t.string "article"
-    t.text "description"
-    t.json "optionsList", default: "{}", null: false
-    t.index ["item_id"], name: "index_item_translations_on_item_id"
-    t.index ["locale"], name: "index_item_translations_on_locale"
-  end
-
   create_table "items", force: :cascade do |t|
-    t.string "measure"
+    t.string "title"
+    t.text "description_uk"
+    t.text "description_ru"
     t.integer "category_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -84,19 +72,30 @@ ActiveRecord::Schema.define(version: 2019_10_02_132406) do
     t.index ["item_id"], name: "index_line_items_on_item_id"
   end
 
+  create_table "options", force: :cascade do |t|
+    t.string "article"
+    t.float "price_rub"
+    t.float "price_uah"
+    t.string "volume"
+    t.bigint "item_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["item_id"], name: "index_options_on_item_id"
+  end
+
   create_table "users", force: :cascade do |t|
+    t.string "name"
     t.string "username"
     t.string "password_digest"
     t.integer "discount"
     t.integer "country"
-    t.bigint "address_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["address_id"], name: "index_users_on_address_id"
   end
 
+  add_foreign_key "addresses", "users"
   add_foreign_key "carts", "users"
   add_foreign_key "line_items", "carts"
   add_foreign_key "line_items", "items"
-  add_foreign_key "users", "addresses"
+  add_foreign_key "options", "items"
 end

@@ -6,7 +6,6 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.string :password_digest
       t.integer :discount
       t.integer :country
-      t.references :address, foreign_key: true
 
       t.timestamps
     end

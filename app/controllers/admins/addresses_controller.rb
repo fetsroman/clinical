@@ -1,4 +1,4 @@
-class AddressesController < ApplicationController
+class Admins::AddressesController < ApplicationController
   before_action :authorize_request_admin
   before_action :set_address, only: [:show, :update, :destroy]
 

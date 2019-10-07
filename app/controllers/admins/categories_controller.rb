@@ -1,4 +1,4 @@
-class CategoriesController < ApplicationController
+class Admins::CategoriesController < ApplicationController
   before_action :authorize_request_admin
   before_action :set_category, only: [:show, :update, :destroy]
 

@@ -1,4 +1,4 @@
-class ItemsController < ApplicationController
+class Admins::ItemsController < ApplicationController
   before_action :authorize_request_admin
   before_action :set_item, only: [:show, :update, :destroy]
 
@@ -51,6 +51,6 @@ class ItemsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def item_params
-      params.permit(:category_id, :title, :description, :article, :optionsList, :image, :measure)
+      params.permit(:category_id, :title, :description_uk, :description_ru, :image, options_attributes: [:id, :article, :price_uah, :price_rub, :volume])
     end
 end

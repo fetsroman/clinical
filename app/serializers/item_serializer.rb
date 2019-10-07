@@ -1,8 +1,13 @@
 class ItemSerializer < ActiveModel::Serializer
-  attributes :id, :title, :article, :description, :image, :measure, :optionsList
+  attributes :id, :title, :description, :image
   has_one :category
+  has_many :options
 
-  def optionsList
-    return JSON(self.object.optionsList)
+  def description
+    if @current_user.country == "Україна"
+      self.object.description_uk
+    elsif @current_user.country == "Россия"
+      self.object.description_ru
+    end
   end
 end

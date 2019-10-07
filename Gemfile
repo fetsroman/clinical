@@ -25,10 +25,9 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'jwt'
 gem 'sidekiq'
-gem 'rails-i18n', '~> 5.1'
-gem 'globalize', git: 'https://github.com/globalize/globalize'
 gem 'carrierwave', '~> 2.0'
 gem 'pg_search'
+gem 'telegram-bot-ruby'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
@@ -42,6 +41,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.8'
   gem 'factory_bot_rails'
   gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'master'
+  gem 'dotenv-rails'
 end
 
 group :development do

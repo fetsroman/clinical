@@ -1,4 +1,4 @@
-class UsersController < ApplicationController
+class Admins::UsersController < ApplicationController
   before_action :authorize_request_admin
   before_action :set_user, only: [:show, :update, :destroy]
 
