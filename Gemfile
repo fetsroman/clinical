@@ -27,6 +27,7 @@ gem 'jwt'
 gem 'sidekiq'
 gem 'carrierwave', '~> 2.0'
 gem 'pg_search'
+gem 'liqpay', github: 'liqpay/sdk-ruby'
 gem 'telegram-bot-ruby'
 
 # Reduces boot times through caching; required in config/boot.rb

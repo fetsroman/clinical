@@ -18,4 +18,10 @@ class Cart < ApplicationRecord
     total_price = line_items.to_a.sum { |line_item| line_item.item.price * line_item.quantity }
     self.update!(total_price: total_price)
   end
+
+  def delete_item
+    line_items.where(cart_id: self.id).each do |line_item|
+      line_item.destroy!
+    end
+  end
 end

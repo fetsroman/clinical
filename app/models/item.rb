@@ -6,7 +6,6 @@ class Item < ApplicationRecord
   has_many :line_items, dependent: :destroy
   accepts_nested_attributes_for :options, reject_if: :all_blank, allow_destroy: true
 
-  translates :title, :article, :description, :optionsList
   mount_uploader :image, ImageUploader
 
   pg_search_scope :search, associated_against: { translations:  [:title, :article] }

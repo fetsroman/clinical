@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   post '/login', to: 'authentication#login'
   post '/logout', to: 'authentication#logout'
 
+  post '/card_payment', to: 'payment#card_payment'
+
   namespace :admins do
     resources :users
     resources :addresses
