@@ -25,7 +25,12 @@ class PaymentController < ApplicationController
     })
 
     if @liqpay_request['result'] == 'ok'  && @liqpay_request['currency'] == currency && @liqpay_request['order_id'] == token
+      items = @current_user.cart.items
+      total_price = @current_user.cart.total_price
+      NotificationMailer.purchase_notification(items: items, total_price: total_price, currency: currency, order: params[:order]).deliver_later
+
       @current_user.cart.delete_item
+
       render json: @liqpay_request
     else
       render json: { error: @liqpay_request['err_description'], status: @liqpay_request['status'] }

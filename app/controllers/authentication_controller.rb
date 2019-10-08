@@ -1,8 +1,8 @@
 class AuthenticationController < ApplicationController
-  before_action :authorize_request, except: :login
+  before_action :authorize_request, except: :sign_in
 
-  # POST /login
-  def login
+  # POST /sign_in
+  def sign_in
     @user = User.find_by_username(params[:username])
     if @user&.authenticate(params[:password])
       token = JsonWebToken.encode({ user_id: @user.id }, 1.month.from_now)
@@ -13,8 +13,8 @@ class AuthenticationController < ApplicationController
     end
   end
 
-  # POST /logout
-  def logout
+  # POST /sign_out
+  def sign_out
     header = request.headers['Authorization']
     header = header.split(' ').last if header
     JwtBlacklist.create(jti: header, exp: @decoded[:exp]) # exp - time in seconds format
