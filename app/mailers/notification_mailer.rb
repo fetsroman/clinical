@@ -6,6 +6,7 @@ class NotificationMailer < ApplicationMailer
     @order = order
     @items = items
     @total_price = total_price
+
     mail(subject: "Оповещение о покупке товара")
   end
 end
