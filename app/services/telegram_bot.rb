@@ -1,8 +1,6 @@
 require 'telegram/bot'
 
-token = ENV['TELEGRAM_BOT_API_TOKEN']
-
-Telegram::Bot::Client.run("911783530:AAHM1AsQryiOQHbpAe7yRehMA0plfVMP0Zs") do |bot|
+Telegram::Bot::Client.run(ENV['TELEGRAM_BOT_API_TOKEN']) do |bot|
   bot.listen do |message|
     case message.text
     when '/start'
