@@ -3,7 +3,14 @@ class AuthenticationController < ApplicationController
 
   # POST /sign_in
   def sign_in
-      render text: "json"
+    @user = User.find_by_username(params[:username])
+    if @user&.authenticate(params[:password])
+      token = JsonWebToken.encode({ user_id: @user.id }, 1.month.from_now)
+
+      render json: { token: token, user: @user }, status: :ok
+    else
+      render json: { error: 'unauthorized' }, status: :unauthorized
+    end
   end
 
   # POST /sign_out

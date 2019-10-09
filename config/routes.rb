@@ -17,8 +17,8 @@ Rails.application.routes.draw do
       resources :items
       resources :categories
 
-      post '/login', to: 'authentication#login'
-      post '/logout', to: 'authentication#logout'
+      post '/sign_in', to: 'authentication#sign_in'
+      post '/sign_out', to: 'authentication#sign_out'
     end
   end
 end
