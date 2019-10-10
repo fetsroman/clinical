@@ -1,11 +1,11 @@
 class AuthenticationController < ApplicationController
   before_action :authorize_request, except: :sign_in
 
-  # POST /sign_in
-  def sign_in
+  # POST /login
+  def login
     @user = User.find_by_username(params[:username])
-    if @user&.authenticate(params[:password])
-      token = JsonWebToken.encode({ user_id: @user.id }, 1.month.from_now)
+    if @user.authenticate(params[:password])
+      token = JsonWebToken.encode({user_id: @user.id }, 1.month.from_now)
 
       render json: { token: token, user: @user }, status: :ok
     else

@@ -5,7 +5,7 @@ class Admins::AuthenticationController < ApplicationController
   def sign_in
     @admin = Admin.find_by_username(params[:username])
     if @admin&.authenticate(params[:password])
-      token = JsonWebToken.encode({ admin_id: @admin.id }, 1.month.from_now)
+      token = Jsonwebtoken.encode({admin_id: @admin.id }, 1.month.from_now)
 
       render json: { token: token, admin: @admin }, status: :ok
     else

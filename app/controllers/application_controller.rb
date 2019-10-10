@@ -8,7 +8,7 @@ class ApplicationController < ActionController::API
     header = header.split(' ').last if header
     begin
       jwt_validate(header)
-      @decoded = JsonWebToken.decode(header)
+      @decoded = Jsonwebtoken.decode(header)
       @current_user = User.find(@decoded[:user_id])
 
     rescue ActiveRecord::RecordNotFound => e
