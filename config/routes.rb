@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     resources :items, only: [:index, :show]
     resources :categories, only: [:index, :show]
 
-    post '/routes', to: 'authentication#sign_in'
+    post '/sign_in', to: 'authentication#sign_in'
     post '/sign_out', to: 'authentication#sign_out'
 
     post '/card_payment', to: 'payment#card_payment'

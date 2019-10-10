@@ -19,7 +19,7 @@ class AuthenticationController < ApplicationController
     header = header.split(' ').last if header
     JwtBlacklist.create(jti: header, exp: @decoded[:exp]) # exp - time in seconds format
 
-    JwtTokenWorker.perform_at((@decoded[:exp] - Time.now.to_i).seconds.from_now, JwtBlacklist.where(jti: header).ids)
+    JwtDestroyWorker.perform_at((@decoded[:exp] - Time.now.to_i).seconds.from_now, JwtBlacklist.where(jti: header).ids)
     render json: { message: 'User was logout' }, status: :ok
   end
 
