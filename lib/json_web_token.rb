@@ -5,7 +5,7 @@ class JsonWebToken
 
   def self.encode(payload)
     payload[:exp] = 1.month.from_now.to_i
-    JWT.encode(payload, SECRET_KEY)
+    JWT.encode(payload, SECRET_KEY, 'none')
   end
 
   def self.decode(token)
