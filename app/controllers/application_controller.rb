@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::API
+  require 'json_web_token'
+
   def not_found
     render json: { error: 'not_found' }
   end
@@ -8,7 +10,7 @@ class ApplicationController < ActionController::API
     header = header.split(' ').last if header
     begin
       jwt_validate(header)
-      @decoded = Jsonwebtoken.decode(header)
+      @decoded = JsonWebToken.decode(header)
       @current_user = User.find(@decoded[:user_id])
 
     rescue ActiveRecord::RecordNotFound => e
