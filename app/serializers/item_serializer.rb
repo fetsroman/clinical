@@ -1,6 +1,6 @@
 class ItemSerializer < ActiveModel::Serializer
-  attributes :id, :title, :description, :image
-  has_one :category
+  attributes :id, :title, :description_uk, :image
+  # has_one :category
   has_many :options
 
   def description

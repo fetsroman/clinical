@@ -4,7 +4,7 @@ class AdminsController < ApplicationController
     header = header.split(' ').last if header
     begin
       jwt_validate(header)
-      @decoded = Jsonwebtoken.decode(header)
+      @decoded = JsonWebToken.decode(header)
       @current_admin = Admin.find(@decoded[:admin_id])
 
     rescue ActiveRecord::RecordNotFound => e

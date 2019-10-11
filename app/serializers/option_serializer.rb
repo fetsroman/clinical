@@ -1,5 +1,5 @@
 class OptionSerializer < ActiveModel::Serializer
-  attributes :id, :article, :volume, :price
+  attributes :article, :volume, :price
 
   def price
     if @current_user.country == "Україна"
