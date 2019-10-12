@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::API
+  serialization_scope :current_user
   require 'json_web_token'
 
   def not_found
@@ -22,10 +23,8 @@ class ApplicationController < ActionController::API
     end
   end
 
-  def user_validate(object)
-    unless @current_user.id == object.user_id
-      render json: "Not success user"
-    end
+  def current_user
+    @current_user
   end
 
   private

@@ -8,5 +8,10 @@ class Item < ApplicationRecord
 
   mount_uploader :image, ImageUploader
 
-  pg_search_scope :search, associated_against: { translations:  [:title, :article] }
+  pg_search_scope :search, against: [:title],
+                  using: {
+                      tsearch: {
+                          any_word: true }
+                  },
+                  associated_against: { options:  [:article] }
 end

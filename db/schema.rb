@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_08_095926) do
+ActiveRecord::Schema.define(version: 2019_10_11_120937) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,9 +28,23 @@ ActiveRecord::Schema.define(version: 2019_10_08_095926) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "banner_parameters", force: :cascade do |t|
+    t.string "article"
+    t.integer "discount"
+    t.bigint "banner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["banner_id"], name: "index_banner_parameters_on_banner_id"
+  end
+
+  create_table "banners", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "image"
+  end
+
   create_table "carts", force: :cascade do |t|
     t.bigint "user_id"
-    t.float "total_price", default: 0.0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_carts_on_user_id"
@@ -66,6 +80,7 @@ ActiveRecord::Schema.define(version: 2019_10_08_095926) do
     t.bigint "cart_id"
     t.bigint "item_id"
     t.integer "quantity"
+    t.string "article"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["cart_id"], name: "index_line_items_on_cart_id"
@@ -100,6 +115,7 @@ ActiveRecord::Schema.define(version: 2019_10_08_095926) do
   end
 
   add_foreign_key "addresses", "users"
+  add_foreign_key "banner_parameters", "banners"
   add_foreign_key "carts", "users"
   add_foreign_key "line_items", "carts"
   add_foreign_key "line_items", "items"

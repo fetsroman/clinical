@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     resources :users, only: [:show]
     resources :items, only: [:index, :show]
     resources :categories, only: [:index, :show]
+    resources :banners
 
     post '/sign_in', to: 'authentication#sign_in'
     post '/sign_out', to: 'authentication#sign_out'
@@ -16,6 +17,7 @@ Rails.application.routes.draw do
       resources :addresses
       resources :items
       resources :categories
+      resources :banners
 
       post '/sign_in', to: 'authentication#sign_in'
       post '/sign_out', to: 'authentication#sign_out'

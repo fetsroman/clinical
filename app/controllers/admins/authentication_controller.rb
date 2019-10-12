@@ -1,4 +1,4 @@
-class Admins::AuthenticationController < ApplicationController
+class Admins::AuthenticationController < AdminsController
   before_action :authorize_request_admin, except: :sign_in
 
   # POST /sign_in
@@ -19,7 +19,7 @@ class Admins::AuthenticationController < ApplicationController
     header = header.split(' ').last if header
     JwtBlacklist.create(jti: header, exp: @decoded[:exp]) # exp - time in seconds format
 
-    JwtTokenWorker.perform_at((@decoded[:exp] - Time.now.to_i).seconds.from_now, JwtBlacklist.where(jti: header).ids)
+    JwtDestroyWorker.perform_at((@decoded[:exp] - Time.now.to_i).seconds.from_now, JwtBlacklist.where(jti: header).ids)
     render json: { message: 'Admin was logout' }, status: :ok
   end
 

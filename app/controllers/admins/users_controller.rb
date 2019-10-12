@@ -1,4 +1,4 @@
-class Admins::UsersController < ApplicationController
+class Admins::UsersController < AdminsController
   before_action :authorize_request_admin
   before_action :set_user, only: [:show, :update, :destroy]
 
@@ -16,13 +16,15 @@ class Admins::UsersController < ApplicationController
 
   # POST /users
   def create
-    @user = User.new(user_params)
-    @user.password = (('0'..'9').to_a + ('a'..'z').to_a + ('A'..'Z').to_a).shuffle.first(8).join
+    user = User.new(user_params)
+    user.password = (('0'..'9').to_a + ('a'..'z').to_a + ('A'..'Z').to_a).shuffle.first(8).join
+
+    @user = user
 
     if @user.save
       CreateCartWorker.perform_async(@user.id)
 
-      render json: @user, status: :created, location: @user
+      render json: user, status: :created, location: @user
     else
       render json: @user.errors, status: :unprocessable_entity
     end

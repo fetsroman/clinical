@@ -2,26 +2,26 @@ class Cart < ApplicationRecord
   belongs_to :user
   has_many :line_items, dependent: :destroy
 
-  def add_item(item)
-    current_item = line_items.find_by(item_id: item.id)
-    if !current_item
-      current_item = line_items.create!(item_id: item.id)
-      self.total_price
-    else
-      current_item.update!(quantity: (current_item.quantity + item.quantity))
-      self.total_price
-    end
-    current_item
-  end
+  def total_price(current_user)
+    @sum = 0
+    line_items.each do |line_item|
+      banner = BannerParameter.find_by_article(line_item.article)
 
-  def total_price
-    total_price = line_items.to_a.sum { |line_item| line_item.item.price * line_item.quantity }
-    self.update!(total_price: total_price)
-  end
+      if current_user.country == "Україна"
+        price = Option.find_by_article(line_item.article).price_uah
+      elsif current_user.country == "Россия"
+        price = Option.find_by_article(line_item.article).price_rub
+      end
 
-  def delete_item
-    line_items.where(cart_id: self.id).each do |line_item|
-      line_item.destroy!
+      if banner.present?
+        discount = banner.discount
+      else
+        discount = current_user.discount
+      end
+
+      @sum = @sum + ((price * (1 - (discount.to_f/100))) * line_item.quantity)
     end
+
+    return @sum
   end
 end
