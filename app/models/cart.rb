@@ -24,4 +24,8 @@ class Cart < ApplicationRecord
 
     return @sum
   end
+
+  def delete_item
+    self.line_items.destroy_all
+  end
 end

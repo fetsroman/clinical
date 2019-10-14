@@ -9,8 +9,10 @@ Rails.application.routes.draw do
 
     post '/sign_in', to: 'authentication#sign_in'
     post '/sign_out', to: 'authentication#sign_out'
+    post '/refresh_token', to: 'application#refresh_token'
 
     post '/card_payment', to: 'payment#card_payment'
+    post '/non_cash_payment', to: 'payment#non_cash_payment'
 
     namespace :admins do
       resources :users

@@ -6,8 +6,10 @@ class AuthenticationController < ApplicationController
     user = User.find_by_username(params[:username])
     if user && user.authenticate(params[:password])
       token = JsonWebToken.encode({user_id: user.id })
+      refresh_token = SecureRandom.urlsafe_base64.to_s
+      RefreshTokenWhitelist.create(token: refresh_token, user_id: user.id)
 
-      render json: { token: token, user: {discount: user[:discount], country: user[:country]} }, status: :ok
+      render json: { token: token, refresh_token: refresh_token, user: {discount: user[:discount], country: user[:country]} }, status: :ok
     else
       render json: { error: 'unauthorized' }, status: :unauthorized
     end
