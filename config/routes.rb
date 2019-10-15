@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     resources :line_items
     resources :carts, only: [:index]
     resources :users, only: [:show]
+    resources :addresses, only: [:index]
     resources :items, only: [:index, :show]
     resources :categories, only: [:index, :show]
     resources :banners
@@ -14,7 +15,7 @@ Rails.application.routes.draw do
     post '/card_payment', to: 'payment#card_payment'
     post '/non_cash_payment', to: 'payment#non_cash_payment'
 
-    namespace :admins do
+    namespace :admin do
       resources :users
       resources :addresses
       resources :items

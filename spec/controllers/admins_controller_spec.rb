@@ -65,7 +65,7 @@ RSpec.describe AdminsController, type: :controller do
         }.to change(Admin, :count).by(1)
       end
 
-      it "renders a JSON response with the new admins" do
+      it "renders a JSON response with the new admin" do
 
         post :create, params: {admin: valid_attributes}, session: valid_session
         expect(response).to have_http_status(:created)
@@ -75,7 +75,7 @@ RSpec.describe AdminsController, type: :controller do
     end
 
     context "with invalid params" do
-      it "renders a JSON response with errors for the new admins" do
+      it "renders a JSON response with errors for the new admin" do
 
         post :create, params: {admin: invalid_attributes}, session: valid_session
         expect(response).to have_http_status(:unprocessable_entity)
@@ -90,14 +90,14 @@ RSpec.describe AdminsController, type: :controller do
         skip("Add a hash of attributes valid for your model")
       }
 
-      it "updates the requested admins" do
+      it "updates the requested admin" do
         admin = Admin.create! valid_attributes
         put :update, params: {id: admin.to_param, admin: new_attributes}, session: valid_session
         admin.reload
         skip("Add assertions for updated state")
       end
 
-      it "renders a JSON response with the admins" do
+      it "renders a JSON response with the admin" do
         admin = Admin.create! valid_attributes
 
         put :update, params: {id: admin.to_param, admin: valid_attributes}, session: valid_session
@@ -107,7 +107,7 @@ RSpec.describe AdminsController, type: :controller do
     end
 
     context "with invalid params" do
-      it "renders a JSON response with errors for the admins" do
+      it "renders a JSON response with errors for the admin" do
         admin = Admin.create! valid_attributes
 
         put :update, params: {id: admin.to_param, admin: invalid_attributes}, session: valid_session
@@ -118,7 +118,7 @@ RSpec.describe AdminsController, type: :controller do
   end
 
   describe "DELETE #destroy" do
-    it "destroys the requested admins" do
+    it "destroys the requested admin" do
       admin = Admin.create! valid_attributes
       expect {
         delete :destroy, params: {id: admin.to_param}, session: valid_session

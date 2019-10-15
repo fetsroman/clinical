@@ -1,4 +1,4 @@
-class Admins::CategoriesController < AdminsController
+class Admin::CategoriesController < AdminsController
   before_action :authorize_request_admin
   before_action :set_category, only: [:show, :update, :destroy]
 
@@ -47,6 +47,6 @@ class Admins::CategoriesController < AdminsController
 
     # Only allow a trusted parameter "white list" through.
     def category_params
-      params.permit(:title, :image)
+      params.permit(:title_uk, :title_ru, :image)
     end
 end

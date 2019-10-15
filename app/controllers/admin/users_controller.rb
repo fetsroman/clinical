@@ -1,4 +1,4 @@
-class Admins::UsersController < AdminsController
+class Admin::UsersController < AdminsController
   before_action :authorize_request_admin
   before_action :set_user, only: [:show, :update, :destroy]
 
@@ -6,7 +6,7 @@ class Admins::UsersController < AdminsController
   def index
     @users = User.all
 
-    render json: @users.address
+    render json: @users
   end
 
   # GET /users/1

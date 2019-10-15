@@ -1,5 +1,5 @@
 class LineItemSerializer < ActiveModel::Serializer
-  attributes :id, :quantity, :title, :volume, :price
+  attributes :id, :quantity, :title, :volume, :price, :image
 
   def title
     object.item.title
@@ -25,5 +25,9 @@ class LineItemSerializer < ActiveModel::Serializer
     end
 
     return ((price * (1 - (discount.to_f/100))) * object.quantity)
+  end
+
+  def image
+    object.item.image
   end
 end

@@ -1,4 +1,4 @@
-class Admins::BannersController < AdminsController
+class Admin::BannersController < AdminsController
   before_action :authorize_request_admin
   before_action :set_banner, only: [:show, :update, :destroy]
 

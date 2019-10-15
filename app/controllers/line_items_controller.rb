@@ -25,7 +25,7 @@ class LineItemsController < ApplicationController
   # PATCH/PUT /line_items/1
   def update
     if @line_item.update(line_item_params)
-      render json: { total_price: @current_user.cart.total_price(@current_user), quantity: @line_item.quantity }, status: :ok
+      render json: @current_user.cart, status: :ok
     else
       render json: @line_item.errors, status: :unprocessable_entity
     end
@@ -34,7 +34,7 @@ class LineItemsController < ApplicationController
   # DELETE /line_items/1
   def destroy
     @line_item.destroy
-    render json: { total_price: @current_user.cart.total_price(@current_user) }
+    render json: @current_user.cart, status: :ok
   end
 
   private

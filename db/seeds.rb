@@ -14,7 +14,16 @@
 #     country: "Україна"
 # )
 #
+# User.create(
+#     name: "company",
+#     username: "example2",
+#     password: "password",
+#     discount: 0,
+#     country: "Россия"
+# )
+#
 # Cart.create(user_id: 1)
+# Cart.create(user_id: 2)
 #
 # 3.times do
 #   Address.create(

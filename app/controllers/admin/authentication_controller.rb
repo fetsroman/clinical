@@ -1,4 +1,4 @@
-class Admins::AuthenticationController < AdminsController
+class Admin::AuthenticationController < AdminsController
   before_action :authorize_request_admin, except: :sign_in
 
   # POST /sign_in

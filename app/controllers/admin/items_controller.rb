@@ -1,4 +1,4 @@
-class Admins::ItemsController < AdminsController
+class Admin::ItemsController < AdminsController
   before_action :authorize_request_admin
   before_action :set_item, only: [:show, :update, :destroy]
 
