@@ -16,7 +16,11 @@ Rails.application.routes.draw do
     post '/non_cash_payment', to: 'payment#non_cash_payment'
 
     namespace :admin do
-      resources :users
+      resources :users do
+        member do
+          put '/generate_password', to: 'users#generate_password'
+        end
+      end
       resources :addresses
       resources :items
       resources :categories

@@ -1,14 +1,36 @@
 require 'telegram/bot'
 
-Telegram::Bot::Client.run(ENV['TELEGRAM_BOT_API_TOKEN']) do |bot|
+Telegram::Bot::Client.run(token) do |bot|
   bot.listen do |message|
     case message.text
     when '/start'
-      bot.api.send_message(chat_id: message.chat.id, text: "Тут будуть сповіщення про товари")
-      TelegramBot.create!(chat_id: message.chat.id)
+      bot.api.send_message(chat_id: message.chat.id, text: "Na")
+
+      file = File.read("db.txt")
+      s = file.split("\n")
+
+      if s.size == 0
+        s = s.push(message.chat.id).join("\n").to_s
+      else
+        s.each do |id|
+          if id != message.chat.id
+            s = s.push(message.chat.id).join("\n").to_s
+          end
+        end
+      end
+      File.write("db.txt", s)
+
     when '/stop'
       bot.api.send_message(chat_id: message.chat.id, text: "BB, #{message.from.first_name}")
-      TelegramBot.find_by_chat_id(message.chat.id).delete
+
+      file = File.read("db.txt")
+      s = file.split("\n")
+      s.each do |id|
+        if id == message.chat.id
+          s = s.delete(message.chat.id).join("\n").to_s
+        end
+      end
+      File.write("db.txt", s)
     end
   end
 end

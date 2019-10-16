@@ -1,6 +1,6 @@
 class Admin::UsersController < AdminsController
   before_action :authorize_request_admin
-  before_action :set_user, only: [:show, :update, :destroy]
+  before_action :set_user, only: [:show, :update, :destroy, :generate_password]
 
   # GET /users
   def index
@@ -16,15 +16,13 @@ class Admin::UsersController < AdminsController
 
   # POST /users
   def create
-    user = User.new(user_params)
-    user.password = (('0'..'9').to_a + ('a'..'z').to_a + ('A'..'Z').to_a).shuffle.first(8).join
-
-    @user = user
+    @user = User.new(user_params)
+    @user.password = (('0'..'9').to_a + ('a'..'z').to_a + ('A'..'Z').to_a).shuffle.first(8).join
 
     if @user.save
-      CreateCartWorker.perform_async(@user.id)
+      Cart.create(user_id: @user.id)
 
-      render json: user, status: :created, location: @user
+      render json: {user: @user, adresses: @user.addresses, password: @user.password}, status: :created, location: @user
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -34,6 +32,15 @@ class Admin::UsersController < AdminsController
   def update
     if @user.update(user_params)
       render json: @user
+    else
+      render json: @user.errors, status: :unprocessable_entity
+    end
+  end
+
+  def generate_password
+    password = (('0'..'9').to_a + ('a'..'z').to_a + ('A'..'Z').to_a).shuffle.first(8).join
+    if @user.update(password: password)
+      render json: {password: @user.password}
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -52,6 +59,6 @@ class Admin::UsersController < AdminsController
 
     # Only allow a trusted parameter "white list" through.
     def user_params
-      params.permit(:username, :name, :discount, :country, addresses_attributes: [:id, :title])
+      params.permit(:username, :name, :discount, :country, addresses_attributes: [:title])
     end
 end
