@@ -4,7 +4,7 @@ class LineItemsController < ApplicationController
 
   # POST /line_items
   def create
-    @line_item = @current_user.cart.line_items.find_by(item_id: line_item_params[:item_id])
+    @line_item = @current_user.cart.line_items.find_by(item_id: line_item_params[:item_id], article: line_item_params[:article])
 
     if @line_item.present?
       if @line_item.update!(quantity: (@line_item.quantity + line_item_params[:quantity].to_i))

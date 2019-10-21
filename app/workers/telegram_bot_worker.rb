@@ -8,22 +8,20 @@ class TelegramBotWorker
     @order = order
     @items = items
     @total_price = total_price
-    
-    message = "Корисувач: #{@order.name}
-                По адресі #{@order.address}
-                Номер телефону: #{@order.phone_number}
+
+    message = "Корисувач: #{@order}
+                По адресі #{@order}
+                Номер телефону: #{@order}
 
                 В вас купили такі товари:
-                #{@items.each do |item|
-                  item.title
-                end}
+                @items
 
                 На суму: #{@total_price} #{@currency}"
 
-    Telegram::Bot::Client.run(ENV['TELEGRAM_BOT_API_TOKEN']) do |bot|
-      TelegramBot.each do |tg_bot|
-        bot.api.send_message(chat_id: tg_bot.chat_id, text: message)
-      end
+    Telegram::Bot::Client.run("911783530:AAHM1AsQryiOQHbpAe7yRehMA0plfVMP0Zs") do |bot|
+      # TelegramBot.each do |tg_bot|
+        bot.api.send_message(chat_id: 440375095, text: message)
+      # end
     end
   end
 end

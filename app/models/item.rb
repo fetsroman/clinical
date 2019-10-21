@@ -8,6 +8,8 @@ class Item < ApplicationRecord
 
   mount_uploader :image, ImageUploader
 
+  scope :by_category, -> category { where(category: category) }
+
   pg_search_scope :search, against: [:title],
                   using: {
                       tsearch: {

@@ -11,7 +11,7 @@ class Admin::UsersController < AdminsController
 
   # GET /users/1
   def show
-    render json: @user
+    render json: {user: @user, addresses: @user.addresses}
   end
 
   # POST /users
@@ -22,7 +22,7 @@ class Admin::UsersController < AdminsController
     if @user.save
       Cart.create(user_id: @user.id)
 
-      render json: {user: @user, adresses: @user.addresses, password: @user.password}, status: :created, location: @user
+      render json: {user: @user, addresses: @user.addresses, password: @user.password}, status: :created, location: @user
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -30,8 +30,8 @@ class Admin::UsersController < AdminsController
 
   # PATCH/PUT /users/1
   def update
-    if @user.update(user_params)
-      render json: @user
+    if @user.update(user_update_params)
+      render json: {user: @user, addresses: @user.addresses}
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -60,5 +60,9 @@ class Admin::UsersController < AdminsController
     # Only allow a trusted parameter "white list" through.
     def user_params
       params.permit(:username, :name, :discount, :country, addresses_attributes: [:title])
+    end
+
+    def user_update_params
+      params.permit(:username, :name, :discount, :country, addresses_attributes: [:id, :title])
     end
 end

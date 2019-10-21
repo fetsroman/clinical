@@ -4,11 +4,7 @@ class Admin::ItemsController < AdminsController
 
   # GET /items
   def index
-    if params[:query].present?
-      @items = Item.search(params[:query])
-    else
-      @items = Item.all
-    end
+    @items = Item.by_category(params[:category])
 
     render json: @items
   end
@@ -31,7 +27,7 @@ class Admin::ItemsController < AdminsController
 
   # PATCH/PUT /items/1
   def update
-    if @item.update(item_params)
+    if @item.update(item_update_params)
       render json: @item
     else
       render json: @item.errors, status: :unprocessable_entity
@@ -52,5 +48,9 @@ class Admin::ItemsController < AdminsController
     # Only allow a trusted parameter "white list" through.
     def item_params
       params.permit(:category_id, :title, :description_uk, :description_ru, :image, options_attributes: [:id, :article, :price_uah, :price_rub, :volume])
+    end
+
+    def item_update_params
+      params.permit(:category_id, :title, :description_uk, :description_ru, :image, options_attributes: [:article, :price_uah, :price_rub, :volume])
     end
 end

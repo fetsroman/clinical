@@ -28,14 +28,14 @@ class PaymentController < ApplicationController
       items = @current_user.cart.line_items
       total_price = @liqpay_request['amount']
 
-      NotificationMailer.purchase_notification(items: items, total_price: total_price, currency: @liqpay_request['currency'], order: params[:order]).deliver_later
+      #NotificationMailer.purchase_notification(items: items, total_price: total_price, currency: @liqpay_request['currency'], order: params[:order]).deliver_later
       TelegramBotWorker.perform_async(items: items, total_price: total_price, currency: @liqpay_request['currency'], order: params[:order])
 
       @current_user.cart.delete_item
 
       render json: {total_price: total_price}, status: :ok
     else
-      render json: { error: @liqpay_request['err_description'], status: @liqpay_request['status'] }
+      render json: { error: @liqpay_request['err_description'] }, status: 403
     end
   end
 
@@ -47,11 +47,10 @@ class PaymentController < ApplicationController
     end
 
     items = @current_user.cart.line_items
-    total_price = @current_user.cart.total_price
+    total_price = @current_user.cart.total_price(@current_user)
 
-    NotificationMailer.purchase_notification(items: items, total_price: total_price, currency: currency, order: params[:order]).deliver_later
-    TelegramBotWorker.perform_async(items: items, total_price: total_price, currency: currency, order: params[:order])
-
+    #NotificationMailer.purchase_notification(items: items, total_price: total_price, currency: currency, order: params[:order]).deliver_later
+    TelegramBotWorker.perform_async(items, total_price, currency, params[:order])
     @current_user.cart.delete_item
 
     render json: {total_price: total_price}, status: :ok
