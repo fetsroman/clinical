@@ -74,6 +74,19 @@ Rails.application.configure do
   # require 'syslog/logger'
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.default_url_options = { host: '' }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+      user_name:      ENV['EMAIL'],
+      password:       ENV['PASSWORD'],
+      domain:         '',
+      address:       'smtp.zoho.com',
+      port:          '465',
+      authentication: :plain
+      # enable_starttls_auto: true
+  }
+
   if ENV["RAILS_LOG_TO_STDOUT"].present?
     logger           = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter

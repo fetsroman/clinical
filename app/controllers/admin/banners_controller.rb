@@ -27,7 +27,7 @@ class Admin::BannersController < AdminsController
 
   # PATCH/PUT /banners/1
   def update
-    if @banner.update(banner_update_params)
+    if @banner.update(banner_params)
       render json: @banner
     else
       render json: @banner.errors, status: :unprocessable_entity
@@ -48,9 +48,5 @@ class Admin::BannersController < AdminsController
     # Only allow a trusted parameter "white list" through.
     def banner_params
       params.permit(:image, banner_parameters_attributes: [:id, :article, :discount])
-    end
-
-    def banner_update_params
-      params.permit(:image, banner_parameters_attributes: [:article, :discount])
     end
 end

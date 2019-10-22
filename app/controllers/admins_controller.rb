@@ -10,9 +10,9 @@ class AdminsController < ApplicationController
     rescue ActiveRecord::RecordNotFound => e
       render json: { errors: e.message }, status: :unauthorized
     rescue JWT::DecodeError => e
-      render json: { errors: e.message, status: 401 }
+      render json: { errors: e.message}, status: 401
     rescue SessionExpiredError => e
-      render json: { errors: e.message, status: 401 }
+      render json: { errors: e.message}, status: 401
     end
   end
 end
