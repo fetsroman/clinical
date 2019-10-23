@@ -1,6 +1,6 @@
 class Admin::BannerParametersController < AdminsController
   before_action :authorize_request_admin
-  before_action :set_banner_parameter, only: [:show, :update, :destroy]
+  before_action :set_banner_parameter, only: [:destroy]
 
   # DELETE /banners/1
   def destroy

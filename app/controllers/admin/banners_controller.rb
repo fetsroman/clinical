@@ -1,28 +1,12 @@
 class Admin::BannersController < AdminsController
   before_action :authorize_request_admin
-  before_action :set_banner, only: [:show, :update, :destroy]
+  before_action :set_banner, only: [:update]
 
   # GET /banners
   def index
-    @banners = Banner.all
+    @banners = Banner.all.first
 
     render json: @banners
-  end
-
-  # GET /banners/1
-  def show
-    render json: @banner
-  end
-
-  # POST /banners
-  def create
-    @banner = Banner.new(banner_params)
-
-    if @banner.save
-      render json: @banner, status: :created, location: @banner
-    else
-      render json: @banner.errors, status: :unprocessable_entity
-    end
   end
 
   # PATCH/PUT /banners/1
@@ -32,11 +16,6 @@ class Admin::BannersController < AdminsController
     else
       render json: @banner.errors, status: :unprocessable_entity
     end
-  end
-
-  # DELETE /banners/1
-  def destroy
-    @banner.destroy
   end
 
   private
