@@ -25,6 +25,7 @@ Rails.application.routes.draw do
       resources :items
       resources :categories
       resources :banners
+      resources :banner_parameters, only: [:delete]
 
       post '/sign_in', to: 'authentication#sign_in'
       post '/sign_out', to: 'authentication#sign_out'
