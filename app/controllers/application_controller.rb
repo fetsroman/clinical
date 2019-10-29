@@ -2,10 +2,6 @@ class ApplicationController < ActionController::API
   serialization_scope :current_user
   require 'json_web_token'
 
-  def not_found
-    render json: { error: 'not_found' }
-  end
-
   def authorize_request
     header = request.headers['Authorization']
     header = header.split(' ').last if header

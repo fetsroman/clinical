@@ -47,6 +47,9 @@ class Admin::ItemsController < AdminsController
 
     # Only allow a trusted parameter "white list" through.
     def item_params
+      if params[:options_attributes].is_a? String
+        params[:options_attributes] = JSON.parse params[:options_attributes]
+      end
       params.permit(:category_id, :title, :description_uk, :description_ru, :image, options_attributes: [:id, :article, :price_uah, :price_rub, :volume])
     end
 end
