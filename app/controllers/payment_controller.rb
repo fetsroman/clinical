@@ -25,11 +25,11 @@ class PaymentController < ApplicationController
     })
 
     if @liqpay_request['result'] == 'ok'  && @liqpay_request['currency'] == currency && @liqpay_request['order_id'] == token
-      items = @current_user.cart.line_items
       total_price = @liqpay_request['amount']
 
-      #NotificationMailer.purchase_notification(items: items, total_price: total_price, currency: @liqpay_request['currency'], order: params[:order]).deliver_later
-      TelegramBotWorker.perform_async(items: items, total_price: total_price, currency: @liqpay_request['currency'], order: params[:order])
+      message = Message.new(message_params, @current_user, @liqpay_request['currency'])
+      NotificationMailer.purchase_notification(message.msg).deliver_later
+      TelegramBotWorker.perform_async(message.msg)
 
       @current_user.cart.delete_item
 
@@ -46,13 +46,17 @@ class PaymentController < ApplicationController
       currency = "RUB"
     end
 
-    items = @current_user.cart.line_items
-    total_price = @current_user.cart.total_price(@current_user)
-
-    NotificationMailer.purchase_notification(params[:order]).deliver_later
-    TelegramBotWorker.perform_async(items, total_price, currency, params[:order])
+    message = Message.new(message_params, @current_user, currency)
+    NotificationMailer.purchase_notification(message.msg).deliver_later
+    TelegramBotWorker.perform_async(message.msg)
     @current_user.cart.delete_item
 
     render json: {total_price: total_price}, status: :ok
+  end
+
+  private
+
+  def message_params
+    params.permit(:card, :card_month, :card_year, :card_cvv, :name, :address, :phone_number)
   end
 end

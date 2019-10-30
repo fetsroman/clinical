@@ -44,8 +44,10 @@ Rails.application.configure do
       domain:         'localhost:3000',
       address:       'smtp.zoho.com',
       port:          465,
-      authentication: :plain
-      # enable_starttls_auto: true
+      authentication: :plain,
+      ssl: true,
+      tsl: true,
+      enable_starttls_auto: true
   }
 
   # Print deprecation notices to the Rails logger.

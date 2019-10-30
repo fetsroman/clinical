@@ -83,8 +83,10 @@ Rails.application.configure do
       domain:         '',
       address:       'smtp.zoho.com',
       port:          465,
-      authentication: :plain
-      # enable_starttls_auto: true
+      authentication: :plain,
+      ssl: true,
+      tls: true,
+      enable_starttls_auto: true
   }
 
   if ENV["RAILS_LOG_TO_STDOUT"].present?
