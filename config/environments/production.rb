@@ -82,7 +82,7 @@ Rails.application.configure do
       password:       ENV['PASSWORD'],
       domain:         '',
       address:       'smtp.zoho.com',
-      port:          '465',
+      port:          465,
       authentication: :plain
       # enable_starttls_auto: true
   }

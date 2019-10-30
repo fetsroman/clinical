@@ -22,7 +22,7 @@ class Admin::UsersController < AdminsController
     if @user.save
       Cart.create(user_id: @user.id)
 
-      render json: {user: @user, addresses: @user.addresses, password: @user.password}, status: :created, location: @user
+      render json: {user: @user, addresses: @user.addresses, password: @user.password}, status: :created
     else
       render json: @user.errors, status: :unprocessable_entity
     end

@@ -1,12 +1,12 @@
 class NotificationMailer < ApplicationMailer
-  default to: "fets.roman@gmail.com"
+  default from: 'team@movadex.com'
 
-  def purchase_notification(items, total_price, currency, order)
-    @currency = currency
+  def purchase_notification(order)
+    # @currency = currency
     @order = order
-    @items = items
-    @total_price = total_price
+    # @items = items
+    # @total_price = total_price
 
-    mail(subject: "Оповещение о покупке товара")
+    mail(to: 'fets.roman@gmail.com', subject: "Оповещение о покупке товара")
   end
 end

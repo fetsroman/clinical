@@ -49,7 +49,7 @@ class PaymentController < ApplicationController
     items = @current_user.cart.line_items
     total_price = @current_user.cart.total_price(@current_user)
 
-    #NotificationMailer.purchase_notification(items: items, total_price: total_price, currency: currency, order: params[:order]).deliver_later
+    NotificationMailer.purchase_notification(params[:order]).deliver_later
     TelegramBotWorker.perform_async(items, total_price, currency, params[:order])
     @current_user.cart.delete_item
 
