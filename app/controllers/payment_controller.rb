@@ -46,6 +46,8 @@ class PaymentController < ApplicationController
       currency = "RUB"
     end
 
+    total_price = @current_user.cart.total_price(@current_user)
+
     message = Message.new(message_params, @current_user, currency)
     NotificationMailer.purchase_notification(message.msg).deliver_later
     TelegramBotWorker.perform_async(message.msg)
