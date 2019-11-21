@@ -29,6 +29,7 @@ gem 'carrierwave', '~> 2.0'
 gem 'pg_search'
 gem 'liqpay', github: 'liqpay/sdk-ruby'
 gem 'telegram-bot-ruby'
+gem 'dotenv-rails'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
@@ -42,7 +43,6 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.8'
   gem 'factory_bot_rails'
   gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'master'
-  gem 'dotenv-rails'
 end
 
 group :development do

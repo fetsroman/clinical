@@ -22,6 +22,6 @@ class CartSerializer < ActiveModel::Serializer
       @sum = @sum + ((price * (1 - (discount.to_f/100))) * line_item.quantity)
     end
 
-    return @sum
+    return @sum.round(2)
   end
 end

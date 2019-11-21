@@ -24,7 +24,7 @@ class LineItemSerializer < ActiveModel::Serializer
       discount = current_user.discount
     end
 
-    return ((price * (1 - (discount.to_f/100))) * object.quantity)
+    return ((price * (1 - (discount.to_f/100))) * object.quantity).round(2)
   end
 
   def image

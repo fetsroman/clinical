@@ -18,6 +18,6 @@ class OptionSerializer < ActiveModel::Serializer
       discount = current_user.discount
     end
 
-    return (price*(1-(discount.to_f/100)))
+    return (price*(1-(discount.to_f/100))).round(2)
   end
 end

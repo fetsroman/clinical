@@ -1,8 +1,9 @@
 class NotificationMailer < ApplicationMailer
-  default from: 'team@movadex.com'
+  default from: 'team@movadex.com',
+          to: ENV['EMAIL_TO']
 
   def purchase_notification(msg)
     @msg = msg
-    mail(to: 'fets.roman@gmail.com', subject: "Оповещение о покупке товара")
+    mail(subject: "Оповещение о покупке товара")
   end
 end
