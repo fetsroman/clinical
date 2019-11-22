@@ -2,6 +2,8 @@ class LineItem < ApplicationRecord
   belongs_to :cart
   belongs_to :item
 
+  validates_presence_of :article, :quantity
+
   def price(current_user)
     banner = BannerParameter.find_by_article(self.article)
 

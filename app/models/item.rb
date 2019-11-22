@@ -6,6 +6,8 @@ class Item < ApplicationRecord
   has_many :line_items, dependent: :destroy
   accepts_nested_attributes_for :options, reject_if: :all_blank, allow_destroy: true
 
+  validates_presence_of :title, :description_ru, :description_uk
+
   mount_uploader :image, ImageUploader
 
   scope :by_category, -> category { where(category: category) }

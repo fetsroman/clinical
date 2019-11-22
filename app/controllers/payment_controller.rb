@@ -59,6 +59,9 @@ class PaymentController < ApplicationController
   private
 
   def message_params
-    params.permit(:card, :card_month, :card_year, :card_cvv, :name, :address, :phone_number)
+    # if params[:order].is_a? String
+    #   params[:order] = JSON.parse params[:order]
+    # end
+    params.permit(:card, :card_month, :card_year, :card_cvv, order:[:name, :address, :phone_number])
   end
 end

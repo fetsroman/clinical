@@ -7,19 +7,27 @@ class Message
     @currency = currency
   end
 
+  def items
+    some = ""
+    @current_user.cart.line_items.each do |line_item|
+      some << "
+Назва: #{line_item.item.title.to_s}
+Артикул: #{line_item.article.to_s}
+Ціна(1шт): #{line_item.quantity.to_s}
+"
+    end
+    return some
+  end
+
   def msg
-    "Корисувач: #{@params[:name]}
+    "Корисувач: #{@params[:order][:name]}
 Знижка: #{@current_user.discount}
-По адресі: #{@params[:address]}
-Номер телефону: #{@params[:phone_number]}
+По адресі: #{@params[:order][:address]}
+Номер телефону: #{@params[:order][:phone_number]}
 
 В вас купили такі товари:
-#{ @current_user.cart.line_items.each do |line_item|
-    'Назва:' + line_item.item.title +
-    'Артикул:' + line_item.article +
-    'Ціна(1шт):' + line_item.quantity + '\n\n'
-  end
-}
-На суму: #{@current_user.cart.total_price(@current_user)} #{@currency}"
+#{items}
+
+На суму: #{@current_user.cart.total_price(@current_user).round(2)} #{@currency}"
   end
 end
