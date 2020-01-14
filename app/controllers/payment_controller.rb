@@ -3,11 +3,11 @@ class PaymentController < ApplicationController
 
   def card_payment
     if @current_user.country == "Україна"
-      currency = "UAH"
+      currency = "USD"
     elsif @current_user.country == "Россия"
       currency = "RUB"
     end
-
+    #2jVyps-fhtsvIw2jVyps-fhtsvIw
     @liqpay = ::Liqpay::Liqpay.new
     token = SecureRandom.urlsafe_base64.to_s
     @liqpay_request = @liqpay.api("request", {
