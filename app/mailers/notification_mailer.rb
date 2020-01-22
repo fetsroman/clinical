@@ -1,5 +1,5 @@
 class NotificationMailer < ApplicationMailer
-  default from: 'team@movadex.com',
+  default from: ENV['EMAIL'],
           to: ENV['EMAIL_TO']
 
   def purchase_notification(msg)
