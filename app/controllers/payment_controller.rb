@@ -41,7 +41,7 @@ class PaymentController < ApplicationController
 
   def non_cash_payment
     if @current_user.country == "Україна"
-      currency = "UAH"
+      currency = "USD"
     elsif @current_user.country == "Россия"
       currency = "RUB"
     end
