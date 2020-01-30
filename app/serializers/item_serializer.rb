@@ -1,7 +1,7 @@
 class ItemSerializer < ActiveModel::Serializer
-  attributes :id, :title, :description, :image
+  attributes :id, :title, :description, :image, :options
   # has_one :category
-  has_many :options
+  # has_many :options
 
   def description
     if current_user.country == "Україна"
@@ -9,5 +9,9 @@ class ItemSerializer < ActiveModel::Serializer
     elsif current_user.country == "Россия"
       self.object.description_ru
     end
+  end
+
+  def options
+    object.options.order("article")
   end
 end
