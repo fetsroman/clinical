@@ -19,6 +19,6 @@ class LineItem < ApplicationRecord
       discount = current_user.discount
     end
 
-    return ((price * (1 - (discount.to_f/100))) * self.quantity)
+    return ((price * (1 - (discount.to_f/100))) * self.quantity).round(2)
   end
 end
