@@ -1,6 +1,8 @@
 class CartSerializer < ActiveModel::Serializer
   attributes :total_price
-  has_many :line_items
+  has_many :line_items do
+    object.line_items.order(:created_at)
+  end
 
   def total_price
     @sum = 0
