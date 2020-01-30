@@ -12,6 +12,6 @@ class ItemSerializer < ActiveModel::Serializer
   end
 
   def options
-    object.options.order("article")
+    OptionSerializer.new(object.options.order("article"))
   end
 end
