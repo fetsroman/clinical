@@ -59,6 +59,6 @@ class Admin::UsersController < AdminsController
 
     # Only allow a trusted parameter "white list" through.
     def user_params
-      params.permit(:username, :name, :discount, :country, addresses_attributes: [:id, :title])
+      params.permit(:username, :name, :discount, :country, :phone_number, addresses_attributes: [:id, :title])
     end
 end

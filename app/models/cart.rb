@@ -28,4 +28,12 @@ class Cart < ApplicationRecord
   def delete_item
     self.line_items.destroy_all
   end
+
+  def cart_count
+    count = 0
+    self.line_items.each do |lt|
+      count += (lt.quantity)
+    end
+    count
+  end
 end

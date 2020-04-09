@@ -15,7 +15,9 @@ class LineItemsController < ApplicationController
     else
       @line_item = @current_user.cart.line_items.build(line_item_params)
       if @line_item.save
-        render status: :ok
+        render json: {
+            cart_count: @current_user.cart.cart_count
+        }, status: :ok
       else
         render json: @line_item.errors, status: :unprocessable_entity
       end

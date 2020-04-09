@@ -4,8 +4,10 @@ class PaymentController < ApplicationController
   def card_payment
     if @current_user.country == "Україна"
       currency = "USD"
+      mail = ENV['EMAIL_TO1']
     elsif @current_user.country == "Россия"
       currency = "RUB"
+      mail = ENV['EMAIL_TO2']
     end
     #2jVyps-fhtsvIw2jVyps-fhtsvIw
     @liqpay = ::Liqpay::Liqpay.new
@@ -42,14 +44,16 @@ class PaymentController < ApplicationController
   def non_cash_payment
     if @current_user.country == "Україна"
       currency = "USD"
+      mail = ENV['EMAIL_TO1']
     elsif @current_user.country == "Россия"
       currency = "RUB"
+      mail = ENV['EMAIL_TO2']
     end
 
     total_price = @current_user.cart.total_price(@current_user)
 
     message = Message.new(message_params, @current_user, currency)
-    NotificationMailer.purchase_notification(message.msg).deliver_later
+    NotificationMailer.purchase_notification(message_params, @current_user, currency, mail).deliver_later
     TelegramBotWorker.perform_async(message.msg)
     @current_user.cart.delete_item
 

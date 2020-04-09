@@ -1,1 +1,16 @@
-<%= @msg %>
+<p>Корисувач: <%= @msg_params[:order][:name] %> </p>
+<p>Знижка: <%= @current_user.discount %> </p>
+<p>По адресі: <%= @msg_params[:order][:address] %> </p>
+<p>Номер телефону: <%= @msg_params[:order][:phone_number] %> </p>
+<br>
+<p>В вас купили такі товари: </p>
+<br>
+<% @current_user.cart.line_items.each do |line_item|%>
+  <p>Назва: <%= line_item.item.title %> </p>
+  <p>Артикул: <%= line_item.article %> </p>
+  <p>Кількість: <%= line_item.quantity %> </p>
+  <p>Ціна(1шт): <%= line_item.price(@current_user) %> </p>
+  <br>
+<% end %>
+<br>
+<p>На суму: <%= @current_user.cart.total_price(@current_user).round(2) %> <%= @currency %> </p>
