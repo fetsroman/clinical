@@ -29,6 +29,6 @@ class Admin::BannersController < AdminsController
       if params[:banner_parameters_attributes].is_a? String
         params[:banner_parameters_attributes] = JSON.parse params[:banner_parameters_attributes]
       end
-      params.permit(:image, banner_parameters_attributes: [:id, :article, :discount])
+      params.permit(:image, :link, banner_parameters_attributes: [:id, :article, :discount])
     end
 end
