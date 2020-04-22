@@ -5,7 +5,7 @@
 <br>
 <p>В вас купили такі товари: </p>
 <br>
-<% @current_user.cart.line_items.each do |line_item|%>
+<% @items.each do |line_item|%>
   <p>Назва: <%= line_item.item.title %> </p>
   <p>Артикул: <%= line_item.article %> </p>
   <p>Кількість: <%= line_item.quantity %> </p>
