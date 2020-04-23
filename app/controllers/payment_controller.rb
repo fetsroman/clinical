@@ -53,7 +53,7 @@ class PaymentController < ApplicationController
     total_price = @current_user.cart.total_price(@current_user)
 
     message = Message.new(message_params, @current_user, currency)
-    NotificationMailer.purchase_notification(message_params, @current_user, currency, mail, @current_user.cart.line_items).deliver_later
+    NotificationMailer.purchase_notification(message_params, @current_user, currency, mail, @current_user.cart.line_items.to_json, total_price).deliver_later
     TelegramBotWorker.perform_async(message.msg).deliver_later
     @current_user.cart.delete_item
 

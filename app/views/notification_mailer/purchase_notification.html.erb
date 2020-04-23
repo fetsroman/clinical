@@ -5,12 +5,12 @@
 <br>
 <p>В вас купили такі товари: </p>
 <br>
-<% @items.each do |line_item|%>
-  <p>Назва: <%= line_item.item.title %> </p>
-  <p>Артикул: <%= line_item.article %> </p>
-  <p>Кількість: <%= line_item.quantity %> </p>
-  <p>Ціна(1шт): <%= line_item.price(@current_user) %> </p>
+<% JSON.parse(@items).each do |line_item|%>
+  <p>Назва: <%= Item.find(line_item["item_id"]).title %> </p>
+  <p>Артикул: <%= line_item["article"] %> </p>
+  <p>Кількість: <%= line_item["quantity"] %> </p>
+  <p>Ціна(1шт): <%= LineItem.new(article: line_item["article"], quantity: line_item["quantity"]).price(@current_user) %> </p>
   <br>
 <% end %>
 <br>
-<p>На суму: <%= @current_user.cart.total_price(@current_user).round(2) %> <%= @currency %> </p>
+<p>На суму: <%= @total_price %> <%= @currency %> </p>
