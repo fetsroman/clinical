@@ -30,7 +30,7 @@ class PaymentController < ApplicationController
       total_price = @liqpay_request['amount']
 
       message = Message.new(message_params, @current_user, @liqpay_request['currency'])
-      NotificationMailer.purchase_notification(message_params, @current_user, currency, mail, @current_user.cart.line_items).deliver_later
+      NotificationMailer.purchase_notification(message_params, @current_user, currency, mail, @current_user.cart.line_items.to_json, total_price).deliver_later
       TelegramBotWorker.perform_async(message.msg).deliver_later
 
       @current_user.cart.delete_item
@@ -54,7 +54,7 @@ class PaymentController < ApplicationController
 
     message = Message.new(message_params, @current_user, currency)
     NotificationMailer.purchase_notification(message_params, @current_user, currency, mail, @current_user.cart.line_items.to_json, total_price).deliver_later
-    TelegramBotWorker.perform_async(message.msg).deliver_later
+    TelegramBotWorker.perform_async(message.msg)
     @current_user.cart.delete_item
 
     render json: {total_price: total_price}, status: :ok
