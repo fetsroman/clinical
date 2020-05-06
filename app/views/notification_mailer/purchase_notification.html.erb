@@ -1,16 +1,16 @@
-<p>Корисувач: <%= @msg_params[:order][:name] %> </p>
-<p>Знижка: <%= @current_user.discount %> </p>
-<p>По адресі: <%= @msg_params[:order][:address] %> </p>
-<p>Номер телефону: <%= @msg_params[:order][:phone_number] %> </p>
+<p>Пользователь: <%= @current_user.name %> </p>
+<p>Скидка: <%= @current_user.discount %> </p>
+<p>Адрес: <%= @msg_params[:order][:address] %> </p>
+<p>Номер телефона: <%= @msg_params[:order][:phone_number] %> </p>
 <br>
-<p>В вас купили такі товари: </p>
+<p>В вас купили такие товары: </p>
 <br>
 <% JSON.parse(@items).each do |line_item|%>
-  <p>Назва: <%= Item.find(line_item["item_id"]).title %> </p>
+  <p>Название: <%= Item.find(line_item["item_id"]).title %> </p>
   <p>Артикул: <%= line_item["article"] %> </p>
-  <p>Кількість: <%= line_item["quantity"] %> </p>
-  <p>Ціна(1шт): <%= LineItem.new(article: line_item["article"], quantity: line_item["quantity"]).price(@current_user) %> </p>
+  <p>Количество: <%= line_item["quantity"] %> </p>
+  <p>Цена(1шт): <%= LineItem.new(article: line_item["article"], quantity: line_item["quantity"]).price(@current_user) %> </p>
   <br>
 <% end %>
 <br>
-<p>На суму: <%= @total_price %> <%= @currency %> </p>
+<p>На сумму: <%= @total_price %> <%= @currency %> </p>
