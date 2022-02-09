@@ -4,7 +4,7 @@ class Cart < ApplicationRecord
 
   def total_price(current_user)
     @sum = 0
-    line_items.each do |line_item|
+    self.line_items.each do |line_item|
       banner = BannerParameter.find_by_article(line_item.article)
 
       if current_user.country == "Україна"
@@ -22,10 +22,18 @@ class Cart < ApplicationRecord
       @sum = @sum + ((price * (1 - (discount.to_f/100))) * line_item.quantity)
     end
 
-    return @sum
+    return @sum.round(2)
   end
 
   def delete_item
     self.line_items.destroy_all
+  end
+
+  def cart_count
+    count = 0
+    self.line_items.each do |lt|
+      count += (lt.quantity)
+    end
+    count
   end
 end

@@ -22,7 +22,7 @@ class Admin::UsersController < AdminsController
     if @user.save
       Cart.create(user_id: @user.id)
 
-      render json: {user: @user, addresses: @user.addresses, password: @user.password}, status: :created, location: @user
+      render json: {user: @user, addresses: @user.addresses, password: @user.password}, status: :created
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -59,6 +59,6 @@ class Admin::UsersController < AdminsController
 
     # Only allow a trusted parameter "white list" through.
     def user_params
-      params.permit(:username, :name, :discount, :country, addresses_attributes: [:id, :title])
+      params.permit(:username, :name, :discount, :country, :phone_number, addresses_attributes: [:id, :title])
     end
 end

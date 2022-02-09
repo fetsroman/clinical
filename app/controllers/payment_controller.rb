@@ -3,11 +3,13 @@ class PaymentController < ApplicationController
 
   def card_payment
     if @current_user.country == "Україна"
-      currency = "UAH"
+      currency = "USD"
+      mail = ENV['EMAIL_TO1']
     elsif @current_user.country == "Россия"
       currency = "RUB"
+      mail = ENV['EMAIL_TO2']
     end
-
+    #2jVyps-fhtsvIw2jVyps-fhtsvIw
     @liqpay = ::Liqpay::Liqpay.new
     token = SecureRandom.urlsafe_base64.to_s
     @liqpay_request = @liqpay.api("request", {
@@ -25,11 +27,11 @@ class PaymentController < ApplicationController
     })
 
     if @liqpay_request['result'] == 'ok'  && @liqpay_request['currency'] == currency && @liqpay_request['order_id'] == token
-      items = @current_user.cart.line_items
       total_price = @liqpay_request['amount']
 
-      #NotificationMailer.purchase_notification(items: items, total_price: total_price, currency: @liqpay_request['currency'], order: params[:order]).deliver_later
-      TelegramBotWorker.perform_async(items: items, total_price: total_price, currency: @liqpay_request['currency'], order: params[:order])
+      message = Message.new(message_params, @current_user, @liqpay_request['currency'])
+      NotificationMailer.purchase_notification(message_params, @current_user, currency, mail, @current_user.cart.line_items.to_json, total_price).deliver_later
+      TelegramBotWorker.perform_async(message.msg).deliver_later
 
       @current_user.cart.delete_item
 
@@ -41,18 +43,29 @@ class PaymentController < ApplicationController
 
   def non_cash_payment
     if @current_user.country == "Україна"
-      currency = "UAH"
+      currency = "USD"
+      mail = ENV['EMAIL_TO1']
     elsif @current_user.country == "Россия"
       currency = "RUB"
+      mail = ENV['EMAIL_TO2']
     end
 
-    items = @current_user.cart.line_items
     total_price = @current_user.cart.total_price(@current_user)
 
-    #NotificationMailer.purchase_notification(items: items, total_price: total_price, currency: currency, order: params[:order]).deliver_later
-    TelegramBotWorker.perform_async(items, total_price, currency, params[:order])
+    message = Message.new(message_params, @current_user, currency)
+    NotificationMailer.purchase_notification(message_params, @current_user, currency, mail, @current_user.cart.line_items.to_json, total_price).deliver_later
+    TelegramBotWorker.perform_async(message.msg)
     @current_user.cart.delete_item
 
     render json: {total_price: total_price}, status: :ok
+  end
+
+  private
+
+  def message_params
+    # if params[:order].is_a? String
+    #   params[:order] = JSON.parse params[:order]
+    # end
+    params.permit(:card, :card_month, :card_year, :card_cvv, order:[:name, :address, :phone_number])
   end
 end

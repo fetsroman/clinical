@@ -1,12 +1,13 @@
 class NotificationMailer < ApplicationMailer
-  default to: "fets.roman@gmail.com"
+  default from: ENV['EMAIL']
+          # to: ENV['EMAIL_TO']
 
-  def purchase_notification(items, total_price, currency, order)
+  def purchase_notification(msg_params, current_user, currency, mail, items, total_price)
+    @msg_params = msg_params
+    @current_user = current_user
     @currency = currency
-    @order = order
     @items = items
     @total_price = total_price
-
-    mail(subject: "Оповещение о покупке товара")
+    mail(subject: "Оповещение о покупке товара", to: mail)
   end
 end

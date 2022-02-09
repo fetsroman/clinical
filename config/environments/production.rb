@@ -75,16 +75,18 @@ Rails.application.configure do
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
   config.action_mailer.perform_deliveries = true
-  config.action_mailer.default_url_options = { host: '' }
+  config.action_mailer.default_url_options = { host: ENV['DOMAIN'] }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
       user_name:      ENV['EMAIL'],
       password:       ENV['PASSWORD'],
-      domain:         '',
+      domain:         ENV['DOMAIN'],
       address:       'smtp.zoho.com',
-      port:          '465',
-      authentication: :plain
-      # enable_starttls_auto: true
+      port:          465,
+      authentication: :plain,
+      ssl: true,
+      tls: true,
+      enable_starttls_auto: true
   }
 
   if ENV["RAILS_LOG_TO_STDOUT"].present?
