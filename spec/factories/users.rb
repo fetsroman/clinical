@@ -1,9 +1,9 @@
 FactoryBot.define do
   factory :user do
-    username { "MyString" }
-    password_digest { "MyString" }
-    discount { 1 }
-    country { 1 }
-    belongs_to { "" }
+    name { Faker::Name.name }
+    username { Faker::Lorem.word }
+    password_digest { Faker::Internet.password }
+    discount { Faker::Number.number(digits: 2) }
+    country { "Україна" }
   end
 end

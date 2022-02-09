@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(version: 2019_10_14_103225) do
     t.index ["user_id"], name: "index_addresses_on_user_id"
   end
 
-  create_table "admin", force: :cascade do |t|
+  create_table "admins", force: :cascade do |t|
     t.string "username"
     t.string "password_digest"
     t.datetime "created_at", null: false

@@ -1,0 +1,139 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/api/items":
+    get:
+      summary: Index a Item
+      tags:
+      - Items
+      security:
+      - Bearer: {}
+      responses:
+        '200':
+          description: item list
+  "/api/items/{id}":
+    get:
+      summary: Show a Item
+      tags:
+      - Items
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: item show
+  "/api/line_items":
+    post:
+      summary: Creates a LineItem
+      tags:
+      - Line Items
+      security:
+      - Bearer: {}
+      parameters: []
+      responses:
+        '200':
+          description: line_item created
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                item_id:
+                  type: integer
+                cart_id:
+                  type: integer
+                article:
+                  type: string
+                quantity:
+                  type: integer
+              required:
+              - item_id
+              - article
+              - quantity
+          application/xml:
+            schema:
+              type: object
+              properties:
+                item_id:
+                  type: integer
+                cart_id:
+                  type: integer
+                article:
+                  type: string
+                quantity:
+                  type: integer
+              required:
+              - item_id
+              - article
+              - quantity
+  "/api/line_items/{id}":
+    put:
+      summary: Update a LineItem
+      tags:
+      - Line Items
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: line_item updated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                article:
+                  type: string
+                quantity:
+                  type: integer
+          application/xml:
+            schema:
+              type: object
+              properties:
+                article:
+                  type: string
+                quantity:
+                  type: integer
+    delete:
+      summary: Delete a LineItem
+      tags:
+      - Line Items
+      security:
+      - Bearer: {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: line_item deleted
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: localhost:3000
+securityDefinitions:
+  Bearer:
+    description: "..."
+    type: apiKey
+    name: Authorization
+    in: header
