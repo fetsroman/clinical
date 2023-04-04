@@ -6,10 +6,6 @@ class ItemSerializer < ActiveModel::Serializer
   end
 
   def description
-    if current_user.country == "Україна"
-      self.object.description_uk
-    elsif current_user.country == "Россия"
-      self.object.description_ru
-    end
+    eval("self.object.description_#{current_user.country_iso}")
   end
 end

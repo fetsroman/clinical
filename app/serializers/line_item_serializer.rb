@@ -10,21 +10,7 @@ class LineItemSerializer < ActiveModel::Serializer
   end
 
   def price
-    banner = BannerParameter.find_by_article(object.article)
-
-    if current_user.country == "Україна"
-      price = Option.find_by_article(object.article).price_uah
-    elsif current_user.country == "Россия"
-      price = Option.find_by_article(object.article).price_rub
-    end
-
-    if banner.present?
-      discount = banner.discount
-    else
-      discount = current_user.discount
-    end
-
-    return ((price * (1 - (discount.to_f/100))) * object.quantity).round(2)
+    object.price(current_user)
   end
 
   def image

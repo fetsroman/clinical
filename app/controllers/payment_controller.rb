@@ -2,10 +2,10 @@ class PaymentController < ApplicationController
   before_action :authorize_request
 
   def card_payment
-    if @current_user.country == "Україна"
+    if @current_user.ukraine?
       currency = "USD"
       mail = ENV['EMAIL_TO1']
-    elsif @current_user.country == "Россия"
+    elsif @current_user.russia?
       currency = "RUB"
       mail = ENV['EMAIL_TO2']
     end
@@ -42,10 +42,10 @@ class PaymentController < ApplicationController
   end
 
   def non_cash_payment
-    if @current_user.country == "Україна"
+    if @current_user.ukraine?
       currency = "USD"
       mail = ENV['EMAIL_TO1']
-    elsif @current_user.country == "Россия"
+    elsif @current_user.russia?
       currency = "RUB"
       mail = ENV['EMAIL_TO2']
     end
